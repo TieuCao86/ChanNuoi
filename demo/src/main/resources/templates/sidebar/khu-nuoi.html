@@ -1,0 +1,45 @@
+<!-- templates/sidebar/khu-nuoi.html -->
+<div th:fragment="khuNuoiContent">
+    <h4>Danh sách Khu Nuôi</h4>
+
+    <!-- Form Thêm/Sửa -->
+    <form id="khu-nuoi-form" class="mb-3">
+        <input type="hidden" id="maKhu">
+        <div class="row">
+            <div class="col-md-3">
+                <input type="text" id="tenKhu" placeholder="Tên khu" class="form-control" required>
+            </div>
+            <div class="col-md-3">
+                <input type="text" id="moTa" placeholder="Mô tả" class="form-control">
+            </div>
+            <div class="col-md-3">
+                <select id="trangThai" class="form-control">
+                    <option value="Đang hoạt động">Đang hoạt động</option>
+                    <option value="Ngừng hoạt động">Ngừng hoạt động</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-primary">Lưu</button>
+                <button type="reset" class="btn btn-secondary" onclick="resetForm()">Hủy</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Bảng danh sách khu -->
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Mã khu</th>
+            <th>Tên khu</th>
+            <th>Mô tả</th>
+            <th>Trạng thái</th>
+            <th>Ngày tạo</th>
+            <th>Hành động</th>
+        </tr>
+        </thead>
+        <tbody id="khu-nuoi-body">
+        <!-- Dữ liệu sẽ được đổ vào bằng JavaScript -->
+        </tbody>
+    </table>
+
+</div>

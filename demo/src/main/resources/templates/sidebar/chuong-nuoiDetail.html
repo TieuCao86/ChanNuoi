@@ -1,0 +1,250 @@
+<!-- src/main/resources/templates/fragments/chuong-detail.html -->
+
+<div th:fragment="chuongDetailContent">
+    <<div class="container my-5">
+
+    <!-- Header -->
+    <div class="bg-white p-4 rounded shadow-sm mb-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h2 id="tenChuong" class="mb-1 fw-bold">---</h2>
+                <p id="maChuongVaKhu" class="text-muted">---</p>
+            </div>
+            <div>
+                <button class="btn btn-primary me-2"><i class="bi bi-pencil"></i> Chỉnh sửa</button>
+                <button class="btn btn-success"><i class="bi bi-download"></i> Xuất báo cáo</button>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="row mt-4">
+            <div class="col-md-3">
+                <div class="bg-primary-subtle p-3 rounded text-primary">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-house fs-4 me-2"></i>
+                        <div>
+                            <div class="text-muted small">Trạng thái</div>
+                            <span id="trangThai" class="status-badge bg-status-nuoi">---</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="bg-success-subtle p-3 rounded text-success">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-people fs-4 me-2"></i>
+                        <div>
+                            <div class="text-muted small">Số lượng</div>
+                            <div id="soLuong" class="fw-bold">--</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="bg-warning-subtle p-3 rounded text-warning">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-calendar fs-4 me-2"></i>
+                        <div>
+                            <div class="text-muted small">Tiến độ</div>
+                            <div id="tienDoText" class="fw-bold">--%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="bg-purple-subtle p-3 rounded text-purple">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-cash-coin fs-4 me-2"></i>
+                        <div>
+                            <div class="text-muted small">Chi phí tháng</div>
+                            <div id="chiPhiThang" class="fw-bold">--₫</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabs -->
+    <ul class="nav nav-tabs" id="chuongTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#overview" type="button" role="tab">Tổng quan</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#medicine" type="button" role="tab">Sử dụng thuốc</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#costs" type="button" role="tab">Chi phí</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#schedule" type="button" role="tab">Lộ trình</button>
+        </li>
+    </ul>
+    <div class="tab-content p-4 bg-white rounded-bottom shadow-sm" id="chuongTabsContent">
+
+        <!-- Overview Tab -->
+        <div class="tab-pane fade show active" id="overview" role="tabpanel">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <h5>Thông tin cơ bản</h5>
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between">
+                            Loại vật nuôi: <strong id="loaiVatNuoi">---</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            Ngày bắt đầu nuôi: <strong id="ngayBatDau">---</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            Số lượng hiện tại: <strong id="soLuongVatNuoi">---</strong>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <h5>Nhân viên phụ trách</h5>
+                    <ul class="list-group" id="nhanVienPhuTrach">
+                        <!-- JS sẽ append <li> tại đây -->
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-4 bg-primary-subtle p-3 rounded">
+                <h5 class="text-primary">Lộ trình hiện tại</h5>
+                <p class="mb-2" id="loTrinhText">--</p>
+                <div class="progress">
+                    <div class="progress-bar bg-primary" id="tienDoBar" role="progressbar" style="width: 0%">0%</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Medicine Tab -->
+        <div class="tab-pane fade" id="medicine" role="tabpanel">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5>Lịch sử sử dụng thuốc</h5>
+                <button class="btn btn-primary">Thêm thuốc sử dụng</button>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead class="table-light">
+                    <tr>
+                        <th>Ngày</th>
+                        <th>Tên thuốc</th>
+                        <th>Số lượng</th>
+                        <th>Lý do</th>
+                        <th>Số vật nuôi</th>
+                        <th>Người thực hiện</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>2024-06-20</td>
+                        <td>Vacxin dịch tả heo</td>
+                        <td>50 liều</td>
+                        <td>Tiêm phòng định kỳ</td>
+                        <td>50</td>
+                        <td>Nguyễn Văn A</td>
+                    </tr>
+                    <tr>
+                        <td>2024-06-18</td>
+                        <td>Kháng sinh Amoxicillin</td>
+                        <td>2kg</td>
+                        <td>Điều trị bệnh hô hấp</td>
+                        <td>15</td>
+                        <td>Trần Thị B</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Costs Tab -->
+        <div class="tab-pane fade" id="costs" role="tabpanel">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5>Chi phí chuồng nuôi</h5>
+                <div>
+                    <button class="btn btn-outline-secondary me-2">Lọc</button>
+                    <button class="btn btn-primary">Thêm chi phí</button>
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <div class="bg-success-subtle p-3 rounded text-success">
+                        <div class="small">Tổng chi phí tháng</div>
+                        <h4>13.250.000₫</h4>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="bg-info-subtle p-3 rounded text-info">
+                        <div class="small">Chi phí/con</div>
+                        <h4>265.000₫</h4>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="bg-warning-subtle p-3 rounded text-warning">
+                        <div class="small">Dự kiến tổng chi phí</div>
+                        <h4>79.500.000₫</h4>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-bordered table-hover">
+                <thead class="table-light">
+                <tr>
+                    <th>Ngày</th>
+                    <th>Loại</th>
+                    <th>Mô tả</th>
+                    <th>Số tiền</th>
+                    <th>Người ghi</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>2024-06-25</td>
+                    <td>Thức ăn</td>
+                    <td>Thức ăn hỗn hợp cho heo</td>
+                    <td>2.500.000₫</td>
+                    <td>Nguyễn Văn A</td>
+                </tr>
+                <!-- Các dòng khác tương tự -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Schedule Tab -->
+        <div class="tab-pane fade" id="schedule" role="tabpanel">
+            <div class="bg-info-subtle p-4 rounded mb-3">
+                <h5>Lộ trình nuôi heo thịt 6 tháng</h5>
+                <p>Từ 2024-01-15 đến 2024-07-15</p>
+                <div class="progress">
+                    <div class="progress-bar bg-info" role="progressbar" style="width: 45%">45%</div>
+                </div>
+            </div>
+            <div class="alert alert-warning d-flex align-items-center">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                <div>
+                    <strong>Công việc sắp tới:</strong><br>
+                    - Tiêm phòng dịch tả heo lần 2: 28/06/2024<br>
+                    - Kiểm tra sức khỏe định kỳ: 30/06/2024
+                </div>
+            </div>
+            <h6 class="mt-4">Chi tiết lộ trình</h6>
+            <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Tuần 1-2: Thích nghi môi trường, tiêm phòng cơ bản
+                    <span class="badge bg-success">Hoàn thành</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Tuần 3-8: Cho ăn khởi động, theo dõi tăng trọng
+                    <span class="badge bg-success">Hoàn thành</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Tuần 9-16: Thức ăn phát triển, tiêm phòng định kỳ
+                    <span class="badge bg-primary">Đang thực hiện</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Tuần 17-24: Chuẩn bị xuất chuồng
+                    <span class="badge bg-secondary">Chưa bắt đầu</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+</div>

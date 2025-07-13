@@ -1,0 +1,27 @@
+<div th:fragment="vatTuKhoContent">
+  <h4>Danh sách Vật Tư trong Kho</h4>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Mã vật tư</th>
+      <th>Tên vật tư</th>
+      <th>Loại</th>
+      <th>Số lượng</th>
+      <th>Đơn vị</th>
+      <th>Ngày nhập</th>
+      <th>Hạn sử dụng</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="vt : ${vatTus}">
+      <td th:text="${vt.maVatTu}"></td>
+      <td th:text="${vt.tenVatTu}"></td>
+      <td th:text="${vt.loaiVatTu}"></td>
+      <td th:text="${vt.soLuong}"></td>
+      <td th:text="${vt.donVi}"></td>
+      <td th:text="${vt.ngayNhap}"></td>
+      <td th:text="${vt.hanSuDung}"></td>
+    </tr>
+    </tbody>
+  </table>
+</div>

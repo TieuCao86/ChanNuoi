@@ -1,0 +1,41 @@
+<div th:fragment="sidebar">
+    <div class="sidebar">
+        <h5 class="text-center">Trang quản lý</h5>
+        <hr style="border-color: #6c757d;">
+
+        <!-- Khu vực nuôi -->
+        <a class="toggle collapsed" onclick="toggleSubmenu(this)">Khu vực nuôi</a>
+        <div class="submenu">
+            <a onclick="loadContent('/khu-nuoi')">Khu nuôi</a>
+            <a onclick="loadContent('/chuong-nuoi')">Chuồng nuôi</a>
+        </div>
+
+        <!-- Kho hàng hóa -->
+        <a class="toggle collapsed" onclick="toggleSubmenu(this)">Kho hàng hóa</a>
+        <div class="submenu">
+
+            <!-- Danh sách kho cám -->
+            <div th:if="${khoCamList != null and !khoCamList.isEmpty()}">
+                <div th:each="kho : ${khoCamList}">
+                    <a th:text="${kho.tenKho}"
+                       th:attr="onclick=|loadContent('/kho/${kho.maKho}')|"></a>
+                </div>
+            </div>
+            <div th:if="${khoCamList == null or khoCamList.isEmpty()}">
+                <p style="font-size: 13px; color: gray;">Không có kho cám</p>
+            </div>
+
+            <!-- Các loại kho còn lại (chỉ 1 kho mỗi loại) -->
+            <div th:if="${otherKhoList != null and !otherKhoList.isEmpty()}">
+                <div th:each="kho : ${otherKhoList}">
+                    <a th:text="${kho.tenKho}"
+                       th:attr="onclick=|loadContent('/kho/${kho.maKho}')|"></a>
+                </div>
+            </div>
+            <div th:if="${otherKhoList == null or otherKhoList.isEmpty()}">
+                <p style="font-size: 13px; color: gray;">Không có kho khác</p>
+            </div>
+
+        </div>
+    </div>
+</div>

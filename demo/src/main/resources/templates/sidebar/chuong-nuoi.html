@@ -1,0 +1,49 @@
+<!-- templates/sidebar/chuong-nuoi.html -->
+<div th:fragment="chuongNuoiContent">
+    <h4 id="chuong-title">Danh sách Chuồng Nuôi</h4>
+
+    <!-- Form Thêm/Sửa -->
+    <form id="chuong-nuoi-form" class="mb-3">
+        <input type="hidden" id="maChuong">
+        <div class="row">
+            <div class="col-md-3">
+                <input type="text" id="tenChuong" placeholder="Tên chuồng" class="form-control" required>
+            </div>
+            <div class="col-md-3">
+                <input type="text" id="loaiVatNuoi" placeholder="Loại vật nuôi" class="form-control" required>
+            </div>
+            <div class="col-md-2">
+                <input type="number" id="sucChua" placeholder="Sức chứa" class="form-control" required>
+            </div>
+            <div class="col-md-2">
+                <select id="trangThai" class="form-control">
+                    <option value="Đang sử dụng">Đang sử dụng</option>
+                    <option value="Bảo trì">Bảo trì</option>
+                    <option value="Không sử dụng">Không sử dụng</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary">Lưu</button>
+                <button type="reset" class="btn btn-secondary" onclick="resetChuongForm()">Hủy</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Bảng danh sách chuồng -->
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Mã chuồng</th>
+            <th>Tên chuồng</th>
+            <th>Loại vật nuôi</th>
+            <th>Sức chứa</th>
+            <th>Trạng thái</th>
+            <th>Ngày tạo</th>
+            <th>Hành động</th>
+        </tr>
+        </thead>
+        <tbody id="chuong-nuoi-body">
+        <!-- Dữ liệu sẽ được JavaScript đổ vào -->
+        </tbody>
+    </table>
+</div>
