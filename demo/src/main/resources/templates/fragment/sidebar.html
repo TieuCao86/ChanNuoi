@@ -1,4 +1,4 @@
-<div th:fragment="sidebar">
+<div th:fragment="sidebar" xmlns:th="http://www.w3.org/1999/xhtml">
     <div class="sidebar">
         <h5 class="text-center">Trang quản lý</h5>
         <hr style="border-color: #6c757d;">
@@ -36,6 +36,13 @@
                 <p style="font-size: 13px; color: gray;">Không có kho khác</p>
             </div>
 
+        </div>
+
+        <a class="toggle collapsed" onclick="toggleSubmenu(this)">Xuất nhập nội bộ</a>
+        <div class="submenu">
+            <a onclick="loadContent('/khu-nuoi')">Tạo phiếu</a>
+            <a onclick="loadContent('/chuong-nuoi')">Danh sách phiếu</a>
+            <a onclick="loadContent('/khu-nuoi')">Danh mục</a>
         </div>
     </div>
 </div>
