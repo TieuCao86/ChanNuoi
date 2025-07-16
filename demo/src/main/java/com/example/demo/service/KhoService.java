@@ -43,6 +43,11 @@ public class KhoService {
         repo.deleteById(maKho);
     }
 
+    public Kho findByMaKho(String maKho) {
+        return repo.findById(maKho)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy kho với mã: " + maKho));
+    }
+
     private String nextMaKho() {
         List<Kho> ds = repo.findAll();
         int max = ds.stream()
@@ -57,10 +62,4 @@ public class KhoService {
                 .orElse(0);
         return String.format("KHO%03d", max + 1);
     }
-
-    public Kho findByMaKho(String maKho) {
-        return repo.findById(maKho)
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy kho với mã: " + maKho));
-    }
-
 }
