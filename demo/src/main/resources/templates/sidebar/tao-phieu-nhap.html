@@ -1,0 +1,41 @@
+<div th:fragment="taoPhieuNhapContent">
+  <h4>Tạo Phiếu Nhập Kho</h4>
+
+  <!-- Form Tạo Phiếu Nhập -->
+  <form id="phieu-nhap-form" class="mb-3">
+    <div class="row">
+      <div class="col-md-3">
+        <input type="text" id="maPhieuNhap" placeholder="Mã phiếu nhập" class="form-control" required>
+      </div>
+      <div class="col-md-3">
+        <input type="date" id="ngayNhap" class="form-control" required>
+      </div>
+      <div class="col-md-3">
+        <input type="text" id="userId" placeholder="Mã người nhập" class="form-control" required>
+      </div>
+      <div class="col-md-3">
+        <input type="text" id="ghiChu" placeholder="Ghi chú" class="form-control">
+      </div>
+    </div>
+    <div class="text-end mt-2">
+      <button type="submit" class="btn btn-primary">Lưu phiếu</button>
+      <button type="reset" class="btn btn-secondary" onclick="resetNhapForm()">Hủy</button>
+    </div>
+  </form>
+
+  <!-- Bảng danh sách phiếu nhập -->
+  <table class="table table-bordered mt-4">
+    <thead>
+    <tr>
+      <th>Mã phiếu</th>
+      <th>Ngày nhập</th>
+      <th>Người nhập</th>
+      <th>Ghi chú</th>
+      <th>Hành động</th>
+    </tr>
+    </thead>
+    <tbody id="nhap-kho-body">
+    <!-- JavaScript sẽ render -->
+    </tbody>
+  </table>
+</div>
