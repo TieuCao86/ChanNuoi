@@ -1,5 +1,3 @@
-const apiChuongNuoi = "/api/chuong-nuoi";
-
 // Lấy mã chuồng từ URL (?maChuong=...)
 const urlParams = new URLSearchParams(window.location.search);
 const maChuong = urlParams.get("maChuong");
@@ -43,18 +41,9 @@ function hienThiChiTietChuong(data) {
     document.getElementById("chiPhiThang").innerText = formatter.format(chiPhi);
 }
 
-// Hiển thị lỗi nếu có
-function hienThiLoi(message) {
-    document.getElementById("tenChuong").innerText = message;
-    document.getElementById("maChuongVaKhu").innerText = "---";
-    const statusBadge = document.querySelector(".status-badge");
-    if (statusBadge) statusBadge.innerText = "---";
-}
-
 // Gọi API lấy chi tiết chuồng
 function loadChuongDetail() {
     if (!maChuong) {
-        hienThiLoi("Không tìm thấy mã chuồng trong URL");
         return;
     }
 
@@ -65,14 +54,12 @@ function loadChuongDetail() {
         })
         .then(data => {
             if (!data || !data.maChuong) {
-                hienThiLoi("Dữ liệu không hợp lệ");
                 return;
             }
             hienThiChiTietChuong(data);
         })
         .catch(err => {
             console.error("Lỗi khi tải chi tiết chuồng:", err);
-            hienThiLoi("Lỗi khi tải dữ liệu chuồng nuôi");
         });
 }
 
@@ -80,7 +67,6 @@ function loadChuongDetail() {
 document.addEventListener("DOMContentLoaded", () => {
     loadChuongDetail();
 
-    // Nếu dùng thư viện lucide để render icon
     if (window.lucide && typeof lucide.createIcons === "function") {
         lucide.createIcons();
     }

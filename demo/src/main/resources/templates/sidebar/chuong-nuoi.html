@@ -2,15 +2,28 @@
 <div th:fragment="chuongNuoiContent">
     <h4 id="chuong-title">Danh sách Chuồng Nuôi</h4>
 
+    <!-- Nút Thêm mới -->
+    <div class="mb-3 text-end">
+        <button class="btn btn-success" onclick="showChuongForm()">
+            <i class="fas fa-plus"></i> Thêm mới
+        </button>
+    </div>
+
     <!-- Form Thêm/Sửa -->
-    <form id="chuong-nuoi-form" class="mb-3">
+    <form id="chuong-nuoi-form" class="mb-3" style="display: none;">
         <input type="hidden" id="maChuong">
         <div class="row">
             <div class="col-md-3">
                 <input type="text" id="tenChuong" placeholder="Tên chuồng" class="form-control" required>
             </div>
             <div class="col-md-3">
-                <input type="text" id="loaiVatNuoi" placeholder="Loại vật nuôi" class="form-control" required>
+                <select id="loaiVatNuoi" class="form-control" required>
+                    <option value="">-- Chọn loại vật nuôi --</option>
+                    <option value="Heo">Heo</option>
+                    <option value="Gà">Gà</option>
+                    <option value="Vịt">Vịt</option>
+                    <option value="Bò">Bò</option>
+                </select>
             </div>
             <div class="col-md-2">
                 <input type="number" id="sucChua" placeholder="Sức chứa" class="form-control" required>
@@ -24,7 +37,7 @@
             </div>
             <div class="col-md-2">
                 <button type="submit" class="btn btn-primary">Lưu</button>
-                <button type="reset" class="btn btn-secondary" onclick="resetChuongForm()">Hủy</button>
+                <button type="button" class="btn btn-secondary" onclick="hideChuongForm()">Hủy</button>
             </div>
         </div>
     </form>
@@ -40,6 +53,30 @@
             <th>Trạng thái</th>
             <th>Ngày tạo</th>
             <th>Hành động</th>
+        </tr>
+        <tr>
+            <th><input type="text" class="form-control form-control-sm" id="filterMaChuong" placeholder="Lọc..."></th>
+            <th><input type="text" class="form-control form-control-sm" id="filterTenChuong" placeholder="Lọc..."></th>
+            <th>
+                <select class="form-control form-control-sm" id="filterLoaiVatNuoi">
+                    <option value="">Tất cả</option>
+                    <option value="Heo">Heo</option>
+                    <option value="Gà">Gà</option>
+                    <option value="Vịt">Vịt</option>
+                    <option value="Bò">Bò</option>
+                </select>
+            </th>
+            <th><input type="number" class="form-control form-control-sm" id="filterSucChua" placeholder="Lọc..."></th>
+            <th>
+                <select class="form-control form-control-sm" id="filterTrangThai">
+                    <option value="">Tất cả</option>
+                    <option value="Đang sử dụng">Đang sử dụng</option>
+                    <option value="Bảo trì">Bảo trì</option>
+                    <option value="Không sử dụng">Không sử dụng</option>
+                </select>
+            </th>
+            <th><input type="date" class="form-control form-control-sm" id="filterNgayTao"></th>
+            <th></th>
         </tr>
         </thead>
         <tbody id="chuong-nuoi-body">

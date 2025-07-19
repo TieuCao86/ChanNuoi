@@ -2,8 +2,15 @@
 <div th:fragment="khuNuoiContent">
     <h4>Danh sách Khu Nuôi</h4>
 
+    <!-- Nút Thêm mới -->
+    <div class="mb-3 text-end">
+        <button class="btn btn-success" onclick="showForm()">
+            <i class="fas fa-plus"></i> Thêm mới
+        </button>
+    </div>
+
     <!-- Form Thêm/Sửa -->
-    <form id="khu-nuoi-form" class="mb-3">
+    <form id="khu-nuoi-form" class="mb-3" style="display: none;">
         <input type="hidden" id="maKhu">
         <div class="row">
             <div class="col-md-3">
@@ -20,7 +27,7 @@
             </div>
             <div class="col-md-3">
                 <button type="submit" class="btn btn-primary">Lưu</button>
-                <button type="reset" class="btn btn-secondary" onclick="resetForm()">Hủy</button>
+                <button type="button" class="btn btn-secondary" onclick="hideForm()">Hủy</button>
             </div>
         </div>
     </form>
@@ -36,10 +43,23 @@
             <th>Ngày tạo</th>
             <th>Hành động</th>
         </tr>
+        <tr>
+            <th><input type="text" class="form-control form-control-sm" id="filterMaKhu" placeholder="Lọc..."></th>
+            <th><input type="text" class="form-control form-control-sm" id="filterTenKhu" placeholder="Lọc..."></th>
+            <th><input type="text" class="form-control form-control-sm" id="filterMoTa" placeholder="Lọc..."></th>
+            <th>
+                <select class="form-control form-control-sm" id="filterTrangThai">
+                    <option value="">Tất cả</option>
+                    <option value="Đang hoạt động">Đang hoạt động</option>
+                    <option value="Ngừng hoạt động">Ngừng hoạt động</option>
+                </select>
+            </th>
+            <th><input type="date" class="form-control form-control-sm" id="filterNgayTao"></th>
+            <th></th>
+        </tr>
         </thead>
         <tbody id="khu-nuoi-body">
         <!-- Dữ liệu sẽ được đổ vào bằng JavaScript -->
         </tbody>
     </table>
-
 </div>

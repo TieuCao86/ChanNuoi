@@ -183,4 +183,50 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+    const filterInputs = [
+        'filterMaChuong',
+        'filterTenChuong',
+        'filterLoaiVatNuoi',
+        'filterSucChua',
+        'filterTrangThai',
+        'filterNgayTao'
+    ];
+
+    filterInputs.forEach(id => {
+        const input = document.getElementById(id);
+        if (input) {
+            input.addEventListener("change", applyFilters);
+            input.addEventListener("input", applyFilters); // cho ô text, number
+        }
+    });
+});
+
+
+function applyFilters() {
+    const maChuong = document.getElementById('filterMaChuong').value;
+    const tenChuong = document.getElementById('filterTenChuong').value;
+    const loaiVatNuoi = document.getElementById('filterLoaiVatNuoi').value;
+    const sucChua = document.getElementById('filterSucChua').value;
+    const trangThai = document.getElementById('filterTrangThai').value;
+    const ngayTao = document.getElementById('filterNgayTao').value;
+
+    const params = new URLSearchParams();
+    if (maChuong) params.append('maChuong', maChuong);
+    if (tenChuong) params.append('tenChuong', tenChuong);
+    if (loaiVatNuoi) params.append('loaiVatNuoi', loaiVatNuoi);
+    if (sucChua) params.append('sucChua', sucChua);
+    if (trangThai) params.append('trangThai', trangThai);
+    if (ngayTao) params.append('ngayTao', ngayTao);
+
+    fetch('/api/chuong-nuoi/filter?' + params.toString())
+        .then(res => res.json())
+        .then(data => {
+            const body = document.getElementById("chuong-nuoi-body");
+            renderChuongTable(data, body);
+        });
+
+}
+
+
 

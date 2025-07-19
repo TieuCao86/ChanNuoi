@@ -75,6 +75,16 @@ function initKhuNuoi() {
         });
 }
 
+function showForm() {
+    document.getElementById("khu-nuoi-form").style.display = "block";
+}
+
+function hideForm() {
+    document.getElementById("khu-nuoi-form").style.display = "none";
+    document.getElementById("khu-nuoi-form").reset(); // reset form
+    document.getElementById("maKhu").value = ""; // xóa mã khu nếu đang sửa
+}
+
 function editKhu(maKhu) {
     fetch(`${apiKhuNuoi}/${maKhu}`)
         .then(res => res.json())

@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -61,4 +62,19 @@ public class ChuongNuoiApi {
     public void delete(@PathVariable String id) {
         chuongNuoiRepository.deleteById(id);
     }
+
+    @GetMapping("/filter")
+    public List<ChuongNuoiDTO> filter(
+            @RequestParam(required = false) String maChuong,
+            @RequestParam(required = false) String tenChuong,
+            @RequestParam(required = false) String loaiVatNuoi,
+            @RequestParam(required = false) Integer sucChua,
+            @RequestParam(required = false) String trangThai,
+            @RequestParam(required = false) LocalDate ngayTao // Định dạng: yyyy-MM-dd
+    ) {
+        return chuongNuoiRepository.filter(maChuong, tenChuong, loaiVatNuoi, sucChua, trangThai, ngayTao).stream()
+                .map(chuongNuoiMapper::toDto)
+                .toList();
+    }
+
 }
