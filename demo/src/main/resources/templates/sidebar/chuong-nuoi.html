@@ -55,27 +55,40 @@
             <th>Hành động</th>
         </tr>
         <tr>
-            <th><input type="text" class="form-control form-control-sm" id="filterMaChuong" placeholder="Lọc..."></th>
-            <th><input type="text" class="form-control form-control-sm" id="filterTenChuong" placeholder="Lọc..."></th>
             <th>
-                <select class="form-control form-control-sm" id="filterLoaiVatNuoi">
-                    <option value="">Tất cả</option>
+                <input type="text" class="form-control form-control-sm"
+                       id="filterMaChuong" placeholder="Mã chuồng (VD: C001)">
+            </th>
+            <th>
+                <input type="text" class="form-control form-control-sm"
+                       id="filterTenChuong" placeholder="Tên chuồng (VD: Chuồng 1)">
+            </th>
+            <th>
+                <select class="form-control form-control-sm"
+                        id="filterLoaiVatNuoi">
+                    <option value="">-- Tất cả --</option>
                     <option value="Heo">Heo</option>
                     <option value="Gà">Gà</option>
                     <option value="Vịt">Vịt</option>
-                    <option value="Bò">Bò</option>
                 </select>
             </th>
-            <th><input type="number" class="form-control form-control-sm" id="filterSucChua" placeholder="Lọc..."></th>
             <th>
-                <select class="form-control form-control-sm" id="filterTrangThai">
-                    <option value="">Tất cả</option>
+                <input type="number" class="form-control form-control-sm"
+                       id="filterSucChua" placeholder="Lọc...">
+            </th>
+            <th>
+                <select class="form-control form-control-sm"
+                        id="filterTrangThai">
+                    <option value="">-- Tất cả --</option>
                     <option value="Đang sử dụng">Đang sử dụng</option>
-                    <option value="Bảo trì">Bảo trì</option>
-                    <option value="Không sử dụng">Không sử dụng</option>
+                    <option value="Tạm ngưng">Tạm ngưng</option>
+                    <option value="Đã ngưng">Đã ngưng</option>
                 </select>
             </th>
-            <th><input type="date" class="form-control form-control-sm" id="filterNgayTao"></th>
+            <th>
+                <input type="date" class="form-control form-control-sm"
+                       id="filterNgayTao">
+            </th>
             <th></th>
         </tr>
         </thead>

@@ -27,11 +27,16 @@ function loadContent(url, push = true) {
                     const maChuong = urlParams.get("maChuong");
 
                     if (url.startsWith('/chuong-nuoi/detail') && typeof loadChuongDetail === 'function') {
-                        loadChuongDetail(); // ✅ Gọi khi vào trang chi tiết
+                        loadChuongDetail();
                     } else if (maKhu && tenKhu && typeof loadChuongNuoiTheoKhu === 'function') {
                         loadChuongNuoiTheoKhu(maKhu, tenKhu);
                     } else if (typeof initChuongNuoi === 'function') {
-                        initChuongNuoi(); // mặc định
+                        initChuongNuoi();
+                    }
+
+                    // ✅ GẮN LẠI FILTER SAU KHI LOAD HTML
+                    if (typeof initFilters === 'function') {
+                        initFilters();
                     }
                 });
             } else if (url.startsWith('/kho/')) {

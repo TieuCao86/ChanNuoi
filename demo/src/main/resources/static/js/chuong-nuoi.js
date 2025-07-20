@@ -18,37 +18,30 @@ function renderChuongTable(data, bodyElement) {
     data.forEach(cn => {
         const row = document.createElement('tr');
 
-        // Mã chuồng
         const tdMa = document.createElement('td');
         tdMa.textContent = cn.maChuong;
         row.appendChild(tdMa);
 
-        // Tên chuồng
         const tdTen = document.createElement('td');
         tdTen.textContent = cn.tenChuong;
         row.appendChild(tdTen);
 
-        // Loại vật nuôi
         const tdLoai = document.createElement('td');
         tdLoai.textContent = cn.loaiVatNuoi;
         row.appendChild(tdLoai);
 
-        // Sức chứa
         const tdSucChua = document.createElement('td');
         tdSucChua.textContent = cn.sucChua;
         row.appendChild(tdSucChua);
 
-        // Trạng thái
         const tdTrangThai = document.createElement('td');
         tdTrangThai.textContent = cn.trangThai;
         row.appendChild(tdTrangThai);
 
-        // Ngày tạo
         const tdNgayTao = document.createElement('td');
         tdNgayTao.textContent = new Date(cn.ngayTao).toLocaleDateString('vi-VN');
         row.appendChild(tdNgayTao);
 
-        // Hành động
         const tdActions = document.createElement('td');
 
         const btnSua = document.createElement('button');
@@ -71,12 +64,11 @@ function renderChuongTable(data, bodyElement) {
         tdActions.appendChild(btnXoa);
         row.appendChild(tdActions);
 
-        // Click để xem chi tiết
         row.style.cursor = 'pointer';
         row.addEventListener('click', () => {
             const url = `/chuong-nuoi/detail?maChuong=${encodeURIComponent(cn.maChuong)}`;
-            loadContent(url); // gọi hàm để load fragment vào mainContent
-            window.history.pushState({}, '', url); // cập nhật URL
+            loadContent(url);
+            window.history.pushState({}, '', url);
         });
 
         bodyElement.appendChild(row);
@@ -122,6 +114,7 @@ function editChuong(maChuong) {
             document.getElementById("loaiVatNuoi").value = cn.loaiVatNuoi;
             document.getElementById("sucChua").value = cn.sucChua;
             document.getElementById("trangThai").value = cn.trangThai;
+            document.getElementById("chuong-nuoi-form").style.display = 'block';
         });
 }
 
@@ -141,6 +134,15 @@ function deleteChuong(maChuong) {
 function resetChuongForm() {
     document.getElementById("chuong-nuoi-form").reset();
     document.getElementById("maChuong").value = "";
+    document.getElementById("chuong-nuoi-form").style.display = 'none';
+}
+
+// Hiện/Ẩn form
+function showChuongForm() {
+    document.getElementById("chuong-nuoi-form").style.display = 'block';
+}
+function hideChuongForm() {
+    resetChuongForm();
 }
 
 // Submit form tạo/sửa
@@ -170,39 +172,16 @@ if (chuongForm) {
     });
 }
 
-// Xác định xem có đang xem chuồng theo khu không
-document.addEventListener("DOMContentLoaded", () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const maKhu = urlParams.get("maKhu");
-    const tenKhu = urlParams.get("tenKhu");
+// Debounce function
+function debounce(func, delay) {
+    let timeout;
+    return function () {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, arguments), delay);
+    };
+}
 
-    if (maKhu && tenKhu) {
-        loadChuongNuoiTheoKhu(maKhu, tenKhu);
-    } else {
-        initChuongNuoi();
-    }
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-    const filterInputs = [
-        'filterMaChuong',
-        'filterTenChuong',
-        'filterLoaiVatNuoi',
-        'filterSucChua',
-        'filterTrangThai',
-        'filterNgayTao'
-    ];
-
-    filterInputs.forEach(id => {
-        const input = document.getElementById(id);
-        if (input) {
-            input.addEventListener("change", applyFilters);
-            input.addEventListener("input", applyFilters); // cho ô text, number
-        }
-    });
-});
-
-
+// Áp dụng filter tự động
 function applyFilters() {
     const maChuong = document.getElementById('filterMaChuong').value;
     const tenChuong = document.getElementById('filterTenChuong').value;
@@ -219,14 +198,73 @@ function applyFilters() {
     if (trangThai) params.append('trangThai', trangThai);
     if (ngayTao) params.append('ngayTao', ngayTao);
 
-    fetch('/api/chuong-nuoi/filter?' + params.toString())
-        .then(res => res.json())
+    console.log("➡️ Hàm applyFilters đang chạy");
+
+    // URL nội bộ để thay đổi thanh địa chỉ
+    const fullUrl = '/chuong-nuoi?' + params.toString();
+    window.history.replaceState(null, '', fullUrl);
+
+    // URL thật gọi API
+    const apiUrl = apiChuongNuoi + '/filter?' + params.toString();
+    console.log("📡 Gọi API:", apiUrl);
+
+    console.log("➡️ Hàm applyFilters đang chạy", {
+        maChuong, tenChuong, loaiVatNuoi, sucChua, trangThai, ngayTao
+    });
+
+    fetch(apiUrl)
+        .then(res => {
+            if (!res.ok) throw new Error("Lỗi khi gọi API lọc");
+            return res.json();
+        })
         .then(data => {
+            console.log("✅ Dữ liệu trả về:", data);
             const body = document.getElementById("chuong-nuoi-body");
             renderChuongTable(data, body);
+        })
+        .catch(err => {
+            console.error("❌ Lỗi khi gọi API lọc:", err);
         });
-
 }
 
+function initFilters() {
+    const filterInputs = [
+        'filterMaChuong',
+        'filterTenChuong',
+        'filterLoaiVatNuoi',
+        'filterSucChua',
+        'filterTrangThai',
+        'filterNgayTao'
+    ];
+
+    const debouncedApplyFilters = debounce(applyFilters, 300);
+
+    filterInputs.forEach(id => {
+        const input = document.getElementById(id);
+        if (input) {
+            input.addEventListener("input", debouncedApplyFilters);
+            input.addEventListener("change", () => {
+                console.log(`🌀 Thay đổi ở filter: #${id}`);
+                applyFilters();
+            });
+        }
+    });
+}
+
+// Khi trang load
+document.addEventListener("DOMContentLoaded", () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const maKhu = urlParams.get("maKhu");
+    const tenKhu = urlParams.get("tenKhu");
+
+    if (maKhu && tenKhu) {
+        loadChuongNuoiTheoKhu(maKhu, tenKhu);
+    } else {
+        initChuongNuoi();
+    }
+
+    // ✅ Gọi initFilters để gắn sự kiện lọc
+    initFilters();
+});
 
 
