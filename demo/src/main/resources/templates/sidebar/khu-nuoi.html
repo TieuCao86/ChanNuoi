@@ -4,33 +4,46 @@
 
     <!-- Nút Thêm mới -->
     <div class="mb-3 text-end">
-        <button class="btn btn-success" onclick="showForm()">
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#khuModal">
             <i class="fas fa-plus"></i> Thêm mới
         </button>
     </div>
 
-    <!-- Form Thêm/Sửa -->
-    <form id="khu-nuoi-form" class="mb-3" style="display: none;">
-        <input type="hidden" id="maKhu">
-        <div class="row">
-            <div class="col-md-3">
-                <input type="text" id="tenKhu" placeholder="Tên khu" class="form-control" required>
-            </div>
-            <div class="col-md-3">
-                <input type="text" id="moTa" placeholder="Mô tả" class="form-control">
-            </div>
-            <div class="col-md-3">
-                <select id="trangThai" class="form-control">
-                    <option value="Đang hoạt động">Đang hoạt động</option>
-                    <option value="Ngừng hoạt động">Ngừng hoạt động</option>
-                </select>
-            </div>
-            <div class="col-md-3">
-                <button type="submit" class="btn btn-primary">Lưu</button>
-                <button type="button" class="btn btn-secondary" onclick="hideForm()">Hủy</button>
+    <!-- Modal Thêm/Sửa Khu Nuôi -->
+    <div class="modal fade" id="khuModal" tabindex="-1" aria-labelledby="khuModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="khu-nuoi-form">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="khuModalLabel">Thêm/Sửa Khu Nuôi</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="maKhu">
+                        <div class="mb-3">
+                            <label for="tenKhu" class="form-label">Tên khu</label>
+                            <input type="text" id="tenKhu" class="form-control" placeholder="Tên khu" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="moTa" class="form-label">Mô tả</label>
+                            <input type="text" id="moTa" class="form-control" placeholder="Mô tả">
+                        </div>
+                        <div class="mb-3">
+                            <label for="trangThai" class="form-label">Trạng thái</label>
+                            <select id="trangThai" class="form-control">
+                                <option value="Đang hoạt động">Đang hoạt động</option>
+                                <option value="Ngừng hoạt động">Ngừng hoạt động</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Lưu</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    </div>
+                </form> <!-- ✅ Đóng form đúng chỗ -->
             </div>
         </div>
-    </form>
+    </div>
 
     <!-- Bảng danh sách khu -->
     <table class="table table-bordered">

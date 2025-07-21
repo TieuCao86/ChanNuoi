@@ -137,14 +137,6 @@ function resetChuongForm() {
     document.getElementById("chuong-nuoi-form").style.display = 'none';
 }
 
-// Hiện/Ẩn form
-function showChuongForm() {
-    document.getElementById("chuong-nuoi-form").style.display = 'block';
-}
-function hideChuongForm() {
-    resetChuongForm();
-}
-
 // Submit form tạo/sửa
 const chuongForm = document.getElementById("chuong-nuoi-form");
 if (chuongForm) {
