@@ -25,19 +25,19 @@ function loadContent(url, push = true) {
                     const maKhu = urlParams.get("maKhu");
                     const tenKhu = urlParams.get("tenKhu");
 
+                    // Nếu là trang chi tiết chuồng
                     if (path.startsWith('/chuong-nuoi/detail') && typeof loadChuongDetail === 'function') {
                         loadChuongDetail();
-                    } else if (maKhu && tenKhu && typeof loadChuongNuoiTheoKhu === 'function') {
-                        loadChuongNuoiTheoKhu(maKhu, tenKhu);
-                    } else if (typeof initChuongNuoi === 'function') {
-                        initChuongNuoi();
+                    }
+                    // Nếu là danh sách chuồng (có hoặc không có bộ lọc khu)
+                    else if (typeof initChuong === 'function') {
+                        initChuong(maKhu, tenKhu);
                     }
 
                     if (typeof initFilters === 'function') {
                         initFilters();
                     }
                 });
-
             } else if (path.startsWith('/kho/')) {
                 loadScriptAndInit('/js/kho.js', 'initKho');
             }
@@ -143,3 +143,72 @@ window.addEventListener('popstate', () => {
     const currentUrl = window.location.pathname + window.location.search;
     loadContent(currentUrl, false);
 });
+
+function renderTable({ url, data, bodyElementId, columns, rowClickUrlBuilder }) {
+    const body = document.getElementById(bodyElementId);
+    if (!body) return;
+
+    const render = (items) => {
+        body.innerHTML = '';
+
+        if (!items || items.length === 0) {
+            const row = document.createElement("tr");
+            const cell = document.createElement("td");
+            cell.colSpan = columns.length;
+            cell.className = "text-center text-muted";
+            cell.textContent = "Không có dữ liệu.";
+            row.appendChild(cell);
+            body.appendChild(row);
+            return;
+        }
+
+        items.forEach(item => {
+            const row = document.createElement("tr");
+
+            columns.forEach(col => {
+                const td = document.createElement("td");
+                if (col.type === "actions") {
+                    col.actions.forEach(action => {
+                        const btn = document.createElement("button");
+                        btn.className = `btn btn-sm ${action.className} me-1`;
+                        btn.textContent = action.label;
+                        btn.addEventListener("click", (e) => {
+                            e.stopPropagation();
+                            action.onClick(item);
+                        });
+                        td.appendChild(btn);
+                    });
+                } else {
+                    const value = item[col.key];
+                    td.textContent = col.formatter ? col.formatter(value) : value;
+                }
+                row.appendChild(td);
+            });
+
+            if (rowClickUrlBuilder) {
+                row.style.cursor = "pointer";
+                row.addEventListener("click", () => {
+                    const url = rowClickUrlBuilder(item);
+                    loadContent(url);
+                    window.history.pushState({}, '', url);
+                });
+            }
+
+            body.appendChild(row);
+        });
+    };
+
+    if (data) {
+        render(data);
+    } else if (url) {
+        fetch(url)
+            .then(res => res.json())
+            .then(render)
+            .catch(err => {
+                console.error("Lỗi khi tải dữ liệu:", err);
+                body.innerHTML = `<tr><td colspan="${columns.length}" class="text-danger text-center">Lỗi khi tải dữ liệu</td></tr>`;
+            });
+    }
+}
+
+

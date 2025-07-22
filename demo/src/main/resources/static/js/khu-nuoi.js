@@ -1,94 +1,41 @@
-const apiKhuNuoi = "/api/khu-nuoi";
+const API_KHUNUOI = "/api/khu-nuoi";
+const KHU_COLUMNS = [
+    { key: 'maKhu', label: 'Mã khu' },
+    { key: 'tenKhu', label: 'Tên khu' },
+    { key: 'moTa', label: 'Mô tả' },
+    { key: 'trangThai', label: 'Trạng thái' },
+    {
+        key: 'ngayTao',
+        label: 'Ngày tạo',
+        formatter: (value) => new Date(value).toLocaleDateString('vi-VN')
+    },
+    {
+        type: 'actions',
+        actions: [
+            { label: 'Sửa', className: 'btn-warning', onClick: (item) => editKhu(item.maKhu) },
+            { label: 'Xóa', className: 'btn-danger', onClick: (item) => deleteKhu(item.maKhu) }
+        ]
+    }
+];
 
+const KHU_BODY_ID = "khu-nuoi-body";
+const KHU_ROW_CLICK_URL = (item) =>
+    `/chuong-nuoi?maKhu=${encodeURIComponent(item.maKhu)}&tenKhu=${encodeURIComponent(item.tenKhu)}`;
+
+// KHỞI TẠO DỮ LIỆU BẢNG
 function initKhuNuoi() {
-    fetch(apiKhuNuoi)
-        .then(res => res.json())
-        .then(data => {
-            const body = document.getElementById('khu-nuoi-body');
-            if (!body) return;
-            body.innerHTML = '';
-
-            data.forEach(khu => {
-                const row = document.createElement('tr');
-
-                // Cột: Mã khu
-                const tdMaKhu = document.createElement('td');
-                tdMaKhu.textContent = khu.maKhu;
-                row.appendChild(tdMaKhu);
-
-                // Cột: Tên khu
-                const tdTenKhu = document.createElement('td');
-                tdTenKhu.textContent = khu.tenKhu;
-                row.appendChild(tdTenKhu);
-
-                // Cột: Mô tả
-                const tdMoTa = document.createElement('td');
-                tdMoTa.textContent = khu.moTa;
-                row.appendChild(tdMoTa);
-
-                // Cột: Trạng thái
-                const tdTrangThai = document.createElement('td');
-                tdTrangThai.textContent = khu.trangThai;
-                row.appendChild(tdTrangThai);
-
-                // Cột: Ngày tạo
-                const tdNgayTao = document.createElement('td');
-                tdNgayTao.textContent = new Date(khu.ngayTao).toLocaleDateString('vi-VN');
-                row.appendChild(tdNgayTao);
-
-                // Cột: Hành động
-                const tdActions = document.createElement('td');
-
-                // Nút Sửa
-                const btnSua = document.createElement('button');
-                btnSua.className = 'btn btn-warning btn-sm me-1';
-                btnSua.textContent = 'Sửa';
-                btnSua.addEventListener('click', (event) => {
-                    event.stopPropagation();
-                    editKhu(khu.maKhu);
-                });
-
-                // Nút Xóa
-                const btnXoa = document.createElement('button');
-                btnXoa.className = 'btn btn-danger btn-sm';
-                btnXoa.textContent = 'Xóa';
-                btnXoa.addEventListener('click', (event) => {
-                    event.stopPropagation();
-                    deleteKhu(khu.maKhu);
-                });
-
-                tdActions.appendChild(btnSua);
-                tdActions.appendChild(btnXoa);
-                row.appendChild(tdActions);
-
-                // Sự kiện click dòng
-                row.style.cursor = 'pointer';
-                row.addEventListener('click', () => {
-                    const url = `/chuong-nuoi?maKhu=${encodeURIComponent(khu.maKhu)}&tenKhu=${encodeURIComponent(khu.tenKhu)}`;
-                    loadContent(url);
-                    window.history.pushState({}, '', url);
-                });
-
-                // Thêm dòng vào bảng
-                body.appendChild(row);
-            });
-        });
+    renderTable({
+        url: API_KHUNUOI,
+        bodyElementId: KHU_BODY_ID,
+        columns: KHU_COLUMNS,
+        rowClickUrlBuilder: KHU_ROW_CLICK_URL
+    });
 }
 
-function editKhu(maKhu) {
-    fetch(`${apiKhuNuoi}/${maKhu}`)
-        .then(res => res.json())
-        .then(khu => {
-            document.getElementById("maKhu").value = khu.maKhu;
-            document.getElementById("tenKhu").value = khu.tenKhu;
-            document.getElementById("moTa").value = khu.moTa;
-            document.getElementById("trangThai").value = khu.trangThai;
-        });
-}
-
+// HÀM XOÁ
 function deleteKhu(maKhu) {
     if (confirm("Bạn có chắc muốn xoá khu này không?")) {
-        fetch(`${apiKhuNuoi}/${maKhu}`, {
+        fetch(`${API_KHUNUOI}/${maKhu}`, {
             method: 'DELETE'
         }).then(() => {
             initKhuNuoi();
@@ -97,11 +44,13 @@ function deleteKhu(maKhu) {
     }
 }
 
+// RESET FORM
 function resetForm() {
     document.getElementById("khu-nuoi-form").reset();
     document.getElementById("maKhu").value = "";
 }
 
+// SUBMIT FORM
 const form = document.getElementById("khu-nuoi-form");
 if (form) {
     form.addEventListener("submit", function (e) {
@@ -114,7 +63,7 @@ if (form) {
         };
 
         const method = maKhu ? "PUT" : "POST";
-        const url = maKhu ? `${apiKhuNuoi}/${maKhu}` : apiKhuNuoi;
+        const url = maKhu ? `${API_KHUNUOI}/${maKhu}` : API_KHUNUOI;
 
         fetch(url, {
             method: method,
@@ -127,5 +76,5 @@ if (form) {
     });
 }
 
-// Gọi khi tải trang
+// GỌI KHI TẢI TRANG
 initKhuNuoi();

@@ -25,7 +25,7 @@ public class KhuNuoiApi {
     }
 
     @GetMapping("/{maKhu}")
-    public KhuNuoiDTO getById(@PathVariable String maKhu) {
+    public KhuNuoiDTO getByMaKhu(@PathVariable String maKhu) {
         return khuNuoiRepository.findById(maKhu)
                 .map(khuNuoiMapper::toDto)
                 .orElse(null);

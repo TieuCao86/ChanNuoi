@@ -26,9 +26,9 @@ public class ChuongNuoiApi {
                 .toList();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ChuongNuoiDTO> getById(@PathVariable String id) {
-        return chuongNuoiRepository.findById(id)
+    @GetMapping("/{maChuong}")
+    public ResponseEntity<ChuongNuoiDTO> getByMaChuong(@PathVariable String maChuong) {
+        return chuongNuoiRepository.findById(maChuong)
                 .map(chuongNuoiMapper::toDto)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -47,20 +47,20 @@ public class ChuongNuoiApi {
         return chuongNuoiMapper.toDto(saved);
     }
 
-    @PutMapping("/{id}")
-    public ChuongNuoiDTO update(@PathVariable String id, @RequestBody ChuongNuoiDTO dto) {
-        return chuongNuoiRepository.findById(id)
+    @PutMapping("/{maChuong}")
+    public ChuongNuoiDTO update(@PathVariable String maChuong, @RequestBody ChuongNuoiDTO dto) {
+        return chuongNuoiRepository.findById(maChuong)
                 .map(existing -> {
                     ChuongNuoi updated = chuongNuoiMapper.toEntity(dto);
-                    updated.setMaChuong(id); // đảm bảo đúng ID
+                    updated.setMaChuong(maChuong); // đảm bảo đúng mã chuồng
                     return chuongNuoiMapper.toDto(chuongNuoiRepository.save(updated));
                 })
                 .orElse(null);
     }
 
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable String id) {
-        chuongNuoiRepository.deleteById(id);
+    @DeleteMapping("/{maChuong}")
+    public void delete(@PathVariable String maChuong) {
+        chuongNuoiRepository.deleteById(maChuong);
     }
 
     @GetMapping("/filter")
@@ -76,5 +76,4 @@ public class ChuongNuoiApi {
                 .map(chuongNuoiMapper::toDto)
                 .toList();
     }
-
 }
